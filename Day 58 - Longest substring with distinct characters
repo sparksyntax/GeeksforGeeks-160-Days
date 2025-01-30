@@ -1,0 +1,23 @@
+class Solution {
+    public int longestUniqueSubstr(String s) {
+        // code here
+        int longest = 0;
+        int left = 0, right = 0;
+        
+        HashMap<Character, Integer> map = new HashMap<>();
+        
+        while (right < s.length()) {
+            char current = s.charAt(right);
+            
+            if (map.containsKey(current) && map.get(current) >= left) {
+                left = map.get(current) + 1;
+            }
+            
+            map.put(current, right);
+            longest = Math.max(longest, right - left + 1);
+            right++;
+        }
+        
+        return longest;
+    }
+}
