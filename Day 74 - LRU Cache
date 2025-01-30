@@ -1,0 +1,42 @@
+class LRUCache {
+    // Constructor for initializing the cache capacity with the given value.
+    private static int capacity;
+    private static Map<Integer, Integer> map;
+    private static LinkedList<Integer> order;
+    
+    LRUCache(int capacity) {
+        // code here
+        this.capacity = capacity;
+        this.map = new HashMap<>();
+        this.order = new LinkedList<>();
+    }
+
+    // Function to return value corresponding to the key.
+    public static int get(int key) {
+        // your code here
+        if (!map.containsKey(key)) {
+            return -1;
+        }
+        order.remove((Integer) key);
+        order.addLast(key);
+        return map.get(key);
+    }
+
+    // Function for storing key-value pair.
+    public static void put(int key, int value) {
+        // your code here
+        if (map.containsKey(key)) {
+            map.put(key, value);
+            order.remove((Integer) key);
+            order.addLast(key);
+        }
+        else {
+            if (map.size() == capacity) {
+                int lruKey = order.removeFirst();
+                map.remove(lruKey);
+            }
+            map.put(key, value);
+            order.addLast(key);
+        }
+    }
+}
