@@ -1,0 +1,24 @@
+class Solution {
+    // Function to search a given number in row-column sorted matrix.
+    public boolean searchRowMatrix(int[][] mat, int x) {
+        // code here
+        for (int[] row : mat) {
+            int low = 0, high = row.length - 1;
+            
+            while (low <= high) {
+                int mid = low + (high - low) / 2;
+                
+                if (row[mid] == x) {
+                    return true;
+                }
+                else if (row[mid] < x) {
+                    low = mid + 1;
+                }
+                else {
+                    high = mid - 1;
+                }
+            }
+        }
+        return false;
+    }
+}
