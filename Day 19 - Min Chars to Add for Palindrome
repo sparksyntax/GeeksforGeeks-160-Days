@@ -1,0 +1,34 @@
+class Solution {
+    public static int minChar(String s) {
+        // Write your code here
+        String reversed = new StringBuilder(s).reverse().toString();
+        String newString = s + '$' + reversed;
+        int minChars = lps(newString);
+        return s.length() - minChars;
+    }
+    
+    private static int lps(String s) {
+        int[] lps = new int[s.length()];
+        int size = s.length();
+        int length = 0, i = 1;
+        
+        while (i < size) {
+            if (s.charAt(i) == s.charAt(length)) {
+                length++;
+                lps[i] = length;
+                i++;
+            }
+            else {
+                if (length != 0) {
+                    length = lps[length - 1];
+                }
+                else {
+                    length = 0;
+                    lps[i] = 0;
+                    i++;
+                }
+            }
+        }
+        return length;
+    }
+}
