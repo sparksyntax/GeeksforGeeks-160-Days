@@ -1,0 +1,21 @@
+class Solution {
+    public static boolean matSearch(int mat[][], int x) {
+        // your code here
+        int m = mat.length, n = mat[0].length;
+        int row = 0, col = n - 1;
+        
+        while (row >= 0 && row < m && col >= 0 && col < n) {
+            int current = mat[row][col];
+            if (current == x) {
+                return true;
+            }
+            else if (current > x) {
+                col--;
+            }
+            else {
+                row++;
+            }
+        }
+        return false;
+    }
+}
