@@ -1,0 +1,26 @@
+class Solution {
+    // Function to count the number of possible triangles.
+    static int countTriangles(int arr[]) {
+        // code here
+        int countTriangles = 0;
+        
+        Arrays.sort(arr);
+        
+        for (int i = 2; i < arr.length; i++) {
+            int left = 0, right = i - 1;
+            
+            while (left < right) {
+                int sum = arr[left] + arr[right];
+                
+                if (sum > arr[i]) {
+                    countTriangles += right - left;
+                    right--;
+                }
+                else {
+                    left++;
+                }
+            }
+        }
+        return countTriangles;
+    }
+}
