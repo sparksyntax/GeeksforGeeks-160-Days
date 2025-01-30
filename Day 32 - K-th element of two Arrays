@@ -1,0 +1,30 @@
+class Solution {
+    public long kthElement(int k, int arr1[], int arr2[]) {
+        int m = arr1.length, n = arr2.length;
+        int[] arr3 = new int[m + n];
+        int i = 0, j = 0, l = 0;
+        while(i < m && j < n) {
+            if(arr1[i] < arr2[j]) {
+                arr3[l] = arr1[i];
+                l++;
+                i++;
+            }
+            else {
+                arr3[l] = arr2[j];
+                l++;
+                j++;
+            }
+        }
+        while(i < m) {
+            arr3[l] = arr1[i];
+            l++;
+            i++;
+        }
+        while(j < n) {
+            arr3[l] = arr2[j];
+            l++;
+            j++;
+        }
+        return arr3[k-1];
+    }
+}
