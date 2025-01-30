@@ -1,0 +1,20 @@
+class Solution {
+    public int kthMissing(int[] arr, int k) {
+        // code here
+        int i = 0, count = 0;
+        int missingPositive = 1;
+        
+        while (true) {
+            if (i < arr.length && arr[i] == missingPositive) {
+                i++;
+            }
+            else {
+                count++;
+                if (count == k) {
+                    return missingPositive;
+                }
+            }
+            missingPositive++;
+        }
+    }
+}
