@@ -1,0 +1,20 @@
+class Solution {
+    public int maxWater(int arr[]) {
+        // code here
+        int waterTrapped = 0;
+        int left = 0, right = arr.length - 1;
+        int leftMax = arr[left], rightMax = arr[right];
+        
+        while (left < right) {
+            if (leftMax <= rightMax) {
+                waterTrapped += (leftMax - arr[left++]);
+                leftMax = Math.max(leftMax, arr[left]);
+            }
+            else {
+                waterTrapped += (rightMax - arr[right--]);
+                rightMax = Math.max(rightMax, arr[right]);
+            }
+        }
+        return waterTrapped;
+    }
+}
