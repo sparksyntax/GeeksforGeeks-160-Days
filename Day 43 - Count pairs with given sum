@@ -1,0 +1,20 @@
+class Solution {
+
+    int countPairs(int arr[], int target) {
+        // Your code here
+        
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int countPairs = 0;
+        
+        for (int num : arr) {
+            int diff = target - num;
+            
+            if (map.containsKey(diff)) {
+                countPairs += map.get(diff);
+            }
+            
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        return countPairs;
+    }
+}
