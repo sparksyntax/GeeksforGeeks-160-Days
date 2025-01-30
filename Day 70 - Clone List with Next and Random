@@ -1,0 +1,40 @@
+class Solution {
+    public Node cloneLinkedList(Node head) {
+        // code here
+        if (head == null) {
+            return null;
+        }
+        
+        Node current = head;
+        while (current != null) {
+            Node newNode = new Node(current.data);
+            newNode.next = current.next;
+            current.next = newNode;
+            current = newNode.next;
+        }
+        
+        current = head;
+        while (current != null) {
+            if (current.random != null) {
+                current.next.random = current.random.next;
+            }
+            current = current.next.next;
+        }
+        
+        current = head;
+        Node dummy = new Node(0);
+        Node copyCurrent = dummy;
+        
+        while (current != null) {
+            Node copy = current.next;
+            copyCurrent.next = copy;
+            copyCurrent = copy;
+            
+            current.next = copy.next;
+            current = current.next;
+        }
+        
+        return dummy.next;
+        
+    }
+}
