@@ -1,0 +1,30 @@
+class Solution {
+    public String addBinary(String s1, String s2) {
+        // code here
+        StringBuilder result = new StringBuilder();
+        
+        int i = s1.length() - 1;
+        int j = s2.length() - 1;
+        int k = 0;
+        
+        while (i >= 0 || j >= 0 || k > 0) {
+            int a = (i >= 0) ? s1.charAt(i) - '0' : 0;
+            int b = (j >= 0) ? s2.charAt(j) - '0' : 0;
+            
+            int sum = a + b + k;
+            result.append(sum % 2);
+            k = sum / 2;
+            i--;
+            j--;
+        }
+        
+        String binaryString = result.reverse().toString();
+        
+        i = 0;
+        while (i < binaryString.length() && binaryString.charAt(i) == '0') {
+            i++;
+        }
+        
+        return binaryString.substring(i);
+    }
+}
