@@ -1,0 +1,21 @@
+class Solution {
+    static ArrayList<Integer> subarraySum(int[] arr, int target) {
+        // code here
+        int i = 0, sum = 0;
+        
+        for (int j = 0; j < arr.length; j++) {
+            sum += arr[j];
+            
+            while (sum > target && i < j) {
+                sum -= arr[i];
+                i++;
+            }
+            
+            if (sum == target) {
+                return new ArrayList<>(Arrays.asList(i + 1, j + 1));
+            }
+        }
+        
+        return new ArrayList<>(Arrays.asList(-1));
+    }
+}
