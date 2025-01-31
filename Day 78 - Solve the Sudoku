@@ -1,0 +1,77 @@
+class Cell {
+    int row, col;
+    public Cell(int r, int c) {
+        this.row = r;
+        this.col = c;
+    }
+}
+
+class Solution {
+    // Function to find a solved Sudoku.
+    static void solveSudoku(int[][] mat) {
+        int size = 9;
+        int[] rFlag = new int[9];
+        int[] cFlag = new int[9];
+        int[] smFlag = new int[9];
+        
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                int num = mat[row][col];
+                if (num != 0) {
+                    int subIndex = (row / 3) * 3 + (col / 3);
+                    rFlag[row] |= (1 << num);
+                    cFlag[col] |= (1 << num);
+                    smFlag[subIndex] |= (1 << num);
+                }
+            }
+        }
+        solve(mat, rFlag, cFlag, smFlag, size);
+    }
+    
+    private static boolean solve(int[][] mat, int[] rFlag, int[] cFlag, int[] smFlag, int size) {
+        Cell toFill = getUnfilled(mat, size);
+        if (toFill == null) {
+            return true;
+        }
+        
+        int subIndex = (toFill.row / 3) * 3 + toFill.col / 3;
+        for (int num = 1; num <= 9; num++) {
+            if ((rFlag[toFill.row] & (1 << num)) == 0 && (cFlag[toFill.col] & (1 << num)) == 0 && (smFlag[subIndex] & (1 << num)) == 0) {
+                mat[toFill.row][toFill.col] = num;
+                rFlag[toFill.row] |= (1 << num);
+                cFlag[toFill.col] |= (1 << num);
+                smFlag[subIndex] |= (1 << num);
+                
+                if (solve(mat, rFlag, cFlag, smFlag, size)) {
+                    return true;
+                }
+                
+                mat[toFill.row][toFill.col] = 0;
+                rFlag[toFill.row] ^= (1 << num);
+                cFlag[toFill.col] ^= (1 << num);
+                smFlag[subIndex] ^= (1 << num);
+            }
+        }
+        return false;
+    }
+    
+    private static Cell getUnfilled(int[][] mat, int size) {
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                if (mat[row][col] == 0) {
+                    return new Cell(row, col);
+                }
+            }
+        }
+        return null;
+    }
+    
+    public static void printSudoku(int[][] mat) {
+        for (int row = 0; row < mat.length; row++) {
+            for (int col = 0; col < mat[row].length; col++) {
+                System.out.print(mat[row][col] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
