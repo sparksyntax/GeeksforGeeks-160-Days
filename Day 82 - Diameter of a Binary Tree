@@ -1,0 +1,23 @@
+class Solution {
+    private int diameter = 0;
+    
+    int diameter(Node root) {
+        // Your code here
+        traverse(root);
+        return diameter;
+        
+    }
+    
+    private int traverse(Node root) {
+        if (root == null) {
+            return 0;
+        }
+        
+        int left = traverse(root.left);
+        int right = traverse(root.right);
+        
+        diameter = Math.max(diameter, left + right);
+        
+        return Math.max(left, right) + 1;
+    }
+}
