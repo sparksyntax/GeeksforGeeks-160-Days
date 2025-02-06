@@ -1,0 +1,35 @@
+class Solution {
+    static int i = 0;
+    public static Node buildTree(int inorder[], int preorder[]) {
+        i = 0;
+        Map<Integer, Integer> inorderMap = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            inorderMap.put(inorder[i], i);
+        }
+        return create(preorder, inorderMap, 0, inorder.length - 1);
+    }
+    
+    public static Node create(int[] preorder, Map<Integer, Integer> inorderMap, int start, int end) {
+        if (start > end) {
+            return null;
+        }
+        
+        int value = preorder[i++];
+        Node root = new Node(value);
+        int index = inorderMap.get(value);   
+        
+        root.left = create(preorder, inorderMap, start, index - 1);
+        root.right = create(preorder, inorderMap, index + 1, end);
+        return root;
+    }
+    
+    public static void postOrder(Node root) {
+        if (root == null) {
+            return;
+        }
+        
+        postOrder(root.left);
+        postOrder(root.right);
+        System.out.print(root.data + " ");
+    }
+}
