@@ -1,0 +1,27 @@
+class Solution {
+    public int sumK(Node root, int k) {
+        // code here
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        
+        return countPaths(root, k, 0, map);
+    }
+    
+    public int countPaths(Node node, int k, int currSum, HashMap<Integer, Integer> map) {
+        if (node == null) {
+            return 0;
+        }
+        
+        currSum += node.data;
+        int pathCount = map.getOrDefault(currSum - k, 0);
+        
+        map.put(currSum, map.getOrDefault(currSum, 0) + 1);
+        
+        pathCount += countPaths(node.left, k, currSum, map);
+        pathCount += countPaths(node.right, k, currSum, map);
+        
+        map.put(currSum, map.get(currSum) - 1);
+        
+        return pathCount;
+    }
+}
