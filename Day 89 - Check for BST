@@ -1,0 +1,19 @@
+class Solution {
+    // Function to check whether a Binary Tree is BST or not.
+    boolean isBST(Node root) {
+        // code here.
+        return isValid(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+    
+    boolean isValid(Node root, long minimum, long maximum) {
+        if (root == null) {
+            return true;
+        }
+        
+        if (root.data <= minimum || root.data >= maximum) {
+            return false;
+        }
+        
+        return isValid(root.left, minimum, root.data) && isValid(root.right, root.data, maximum);   
+    }
+}
