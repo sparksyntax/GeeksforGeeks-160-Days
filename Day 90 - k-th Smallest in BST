@@ -1,0 +1,27 @@
+class Solution {
+    // Return the Kth smallest element in the given BST
+    int count = 0;
+    int result = -1;
+    
+    public int kthSmallest(Node root, int k) {
+        // Write your code here
+        traverse(root, k);
+        return result;
+    }
+    
+    public void traverse(Node root, int k) {
+        if (root == null) {
+            return;
+        }
+        
+        traverse(root.left, k);
+        count++;
+        
+        if (count == k) {
+            result = root.data;
+            return;
+        }
+        
+        traverse(root.right, k);
+    }
+}
