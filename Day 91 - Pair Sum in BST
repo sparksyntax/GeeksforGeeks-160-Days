@@ -1,0 +1,32 @@
+class Solution {
+    boolean findTarget(Node root, int target) {
+        // Write your code here
+        ArrayList<Integer> list = new ArrayList<>();
+        traverse(root, list);
+        int left = 0, right = list.size() - 1;
+        
+        while (left < right) {
+            int sum = list.get(left) + list.get(right);
+            if (sum == target) {
+                return true;
+            }
+            else if (sum < target) {
+                left++;
+            }
+            else {
+                right--;
+            }
+        }
+        return false;
+    }
+    
+    void traverse(Node root, ArrayList<Integer> list) {
+        if (root == null) {
+            return;
+        }
+        
+        traverse(root.left, list);
+        list.add(root.data);
+        traverse(root.right, list);
+    }
+}
