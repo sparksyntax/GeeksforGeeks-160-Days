@@ -1,0 +1,36 @@
+class Point {
+    int x, y;
+    
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    
+    public int getDistance() {
+        return (x * x) + (y * y);
+    }
+}
+
+class Solution {
+    public int[][] kClosest(int[][] points, int k) {
+        // Your code here
+        PriorityQueue<Point> maxHeap = new PriorityQueue<>(
+            (a, b) -> Integer.compare(b.getDistance(), a.getDistance()));
+        
+        for (int[] p : points) {
+            Point point = new Point(p[0], p[1]);
+            maxHeap.offer(point);
+            if (maxHeap.size() > k) {
+                maxHeap.poll();
+            }
+        }
+        
+        int[][] result = new int[k][2];
+        int i = 0;
+        while (!maxHeap.isEmpty()) {
+            Point p  = maxHeap.poll();
+            result[i++] = new int[]{p.x, p.y};
+        }
+        return result;
+    }
+}
