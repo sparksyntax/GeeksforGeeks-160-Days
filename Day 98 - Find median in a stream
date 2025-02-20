@@ -1,0 +1,39 @@
+class Solution {
+    PriorityQueue<Integer> left, right;
+    
+    public Solution() {
+        left = new PriorityQueue<>(Collections.reverseOrder());
+        right = new PriorityQueue<>();
+    }
+    
+    public void addNum(int num) {
+        if (left.isEmpty() || num <= left.peek()) {
+            left.offer(num);
+        }
+        else {
+            right.offer(num);
+        }
+        if (left.size() > right.size() + 1) {
+            right.offer(left.poll());
+        }
+        else if (right.size() > left.size()) {
+            left.offer(right.poll());
+        }
+    }
+    
+    public ArrayList<Double> getMedian(int[] arr) {
+        // code here
+        ArrayList<Double> medians = new ArrayList<>();
+        
+        for (int num : arr) {
+            addNum(num);
+            if (left.size() > right.size()) {
+                medians.add((double) left.peek());
+            }
+            else {
+                medians.add((left.peek() + right.peek()) / 2.0);
+            }
+        }
+        return medians;
+    }
+}
