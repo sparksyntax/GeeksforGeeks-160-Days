@@ -1,0 +1,20 @@
+class Solution {
+    // Function to find the next greater element for each element of the array.
+    public ArrayList<Integer> nextLargerElement(int[] arr) {
+        // code here
+        ArrayList<Integer> result = new ArrayList<>();
+        Stack<Integer> stack = new Stack<>();
+        
+        for (int i = arr.length - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && stack.peek() <= arr[i]) {
+                stack.pop();
+            }
+            
+            result.add(0, !stack.isEmpty() ? stack.peek() : -1);
+            
+            stack.push(arr[i]);
+        }
+        
+        return result;
+    }
+}
