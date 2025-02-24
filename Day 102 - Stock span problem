@@ -1,0 +1,18 @@
+class Solution {
+    public ArrayList<Integer> calculateSpan(int[] arr) {
+        // write code here
+        ArrayList<Integer> result = new ArrayList<>();
+        Stack<int[]> stack = new Stack<>();
+        
+        for (int price : arr) {
+            int days = 1;
+            while (!stack.isEmpty() && stack.peek()[0] <= price) {
+                days += stack.pop()[1];
+            }
+            stack.push(new int[]{price, days});
+            result.add(days);
+        }
+        
+        return result;
+    }
+}
