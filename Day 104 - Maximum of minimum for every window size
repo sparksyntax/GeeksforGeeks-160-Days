@@ -1,0 +1,58 @@
+class Solution {
+    public ArrayList<Integer> maxOfMins(int[] arr) {
+        // Your code here
+        int n = arr.length;
+        int[] previous = previousMinimum(arr);
+        int[] next = nextMinimum(arr);
+        int[] nums = new int[n + 1];
+        Arrays.fill(nums, Integer.MIN_VALUE);
+        
+        for (int i = 0; i < n; i++) {
+            int len = next[i] - previous[i] - 1;
+            nums[len] = Math.max(nums[len], arr[i]);
+        }
+        
+        for (int i = n - 1; i >= 1; i--) {
+            nums[i] = Math.max(nums[i], nums[i + 1]);
+        }
+        
+        ArrayList<Integer> result = new ArrayList<>();
+        
+        for (int i = 1; i <= n; i++) {
+            result.add(nums[i]);
+        }
+        return result;
+    }
+    
+    public int[] nextMinimum(int[] arr) {
+        int n = arr.length;
+        int[] nextMinimum = new int[n];
+        Stack<Integer> stack = new Stack<>();
+        
+        for (int i = n - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
+                stack.pop();
+            }
+            nextMinimum[i] = stack.isEmpty() ? n : stack.peek();
+            stack.push(i);
+        }
+        
+        return nextMinimum;
+    }
+    
+    public int[] previousMinimum(int[] arr) {
+        int n = arr.length;
+        int[] previousMinimum = new int[n];
+        Stack<Integer> stack = new Stack<>();
+        
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
+                stack.pop();
+            }
+            previousMinimum[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(i);
+        }
+        
+        return previousMinimum;
+    }
+}
