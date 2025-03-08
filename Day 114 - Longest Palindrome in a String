@@ -1,0 +1,36 @@
+class Solution {
+    static String longestPalindrome(String s) {
+        // code here
+        int start = 0, end = 0, len = 0, n = s.length();
+        
+        for (int i = 1; i < n; i++) {
+            int left = i - 1, right = i + 1;
+            
+            while (left >= 0 && right < n && s.charAt(left) == s.charAt(right)) {
+                if (right - left + 1 > len) {
+                    len = right - left + 1;
+                    start = left;
+                    end = right;
+                }
+                left--;
+                right++;
+            }
+            
+            left = i - 1;
+            right = i;
+            
+            while (left >= 0 && right < n && s.charAt(left) == s.charAt(right)) {
+                if (right - left + 1 > len) {
+                    len = right - left + 1;
+                    start = left;
+                    end = right;
+                }
+                left--;
+                right++;
+            }
+            
+        }
+        
+        return s.substring(start, end + 1);
+    }
+}
