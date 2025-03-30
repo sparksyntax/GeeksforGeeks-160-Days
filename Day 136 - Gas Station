@@ -1,0 +1,21 @@
+class Solution {
+    public int startStation(int[] gas, int[] cost) {
+        // Your code here
+        int n = gas.length;
+        int current = 0, index = 0, total = 0;
+        
+        for (int i = 0; i < n; i++) {
+            current += gas[i] - cost[i];
+            total += gas[i] - cost[i];
+            
+            if (current < 0) {
+                current = 0;
+                index = i + 1;
+            }
+        }
+        
+        if (total < 0) return -1;
+        
+        return index;
+    }
+}
