@@ -1,0 +1,40 @@
+
+class Solution {
+    public int countIslands(char[][] grid) {
+        // Code here
+        int row = grid.length;
+        int col = grid[0].length;
+        
+        int count = 0;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (grid[i][j] == 'L') {
+                    dfs(grid, i, j);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    
+    public void dfs(char[][] grid, int r, int c) {
+        int row = grid.length;
+        int col = grid[0].length;
+        
+        if (r < 0 || c < 0 || r >= row || c >= col || grid[r][c] != 'L') {
+            return;
+        }
+        
+        int[] rowDir = {-1, -1, -1, 0, 0, 1, 1, 1};
+        int[] colDir = {-1, 0, 1, -1, 1, -1, 0, 1};
+        
+        grid[r][c] = 'W';
+        
+        for (int k = 0; k < 8; k++) {
+            int newRow = r + rowDir[k];
+            int newCol = c + colDir[k];
+            
+            dfs(grid, newRow, newCol);
+        }
+    }
+}
