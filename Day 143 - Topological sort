@@ -1,0 +1,52 @@
+class Solution {
+    public static List<Integer>[] construct(int V, int[][] edges) {
+        List<Integer>[] adj = new ArrayList[V];
+        
+        for (int i = 0; i < V; i++) {
+            adj[i] = new ArrayList<>();
+        }
+        
+        for (int[] edge : edges) {
+            adj[edge[0]].add(edge[1]);
+        }
+        
+        return adj;
+    }
+    
+    public static ArrayList<Integer> topoSort(int V, int[][] edges) {
+        // code here
+        List<Integer>[] adj = construct(V, edges);
+        int[] indegree = new int[V];
+        
+        for (int i = 0; i < V; i++) {
+            for (int neighbor : adj[i]) {
+                indegree[neighbor]++;
+            }
+        }
+        
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < V; i++) {
+            if (indegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        
+        ArrayList<Integer> result = new ArrayList<>();
+        
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            result.add(node);
+            
+            for (int neighbor : adj[node]) {
+                indegree[neighbor]--;
+                if (indegree[neighbor] == 0) {
+                    queue.offer(neighbor);
+                }
+            }
+        }
+        
+        if (result.size() != V) return new ArrayList<>();
+        
+        return result;
+    }
+}
