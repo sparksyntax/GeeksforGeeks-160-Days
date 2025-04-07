@@ -1,0 +1,48 @@
+class Solution {
+    public List<Integer>[] construct(int V, int[][] edges) {
+        List<Integer>[] adj = new ArrayList[V];
+        
+        for (int i = 0; i < V; i++) {
+            adj[i] = new ArrayList<>();
+        }
+        
+        for (int[] edge : edges) {
+            adj[edge[0]].add(edge[1]);
+        }
+        
+        return adj;
+    }
+    public boolean isCyclic(int V, int[][] edges) {
+        // code here
+        List<Integer>[] adj = construct(V, edges);
+        int[] indegree = new int[V];
+        
+        Queue<Integer> queue = new LinkedList<>();
+        int visited = 0;
+        
+        for (int i = 0; i < V; i++) {
+            for (int j : adj[i]) {
+                indegree[j]++;
+            }
+        }
+        
+        for (int i = 0; i < V; i++) {
+            if (indegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        
+        while (!queue.isEmpty()) {
+            int remove = queue.poll();
+            visited++;
+            
+            for (int i : adj[remove]) {
+                indegree[i]--;
+                if (indegree[i]  == 0) {
+                    queue.offer(i);
+                }
+            }
+        }
+        return visited != V;
+    }
+}
