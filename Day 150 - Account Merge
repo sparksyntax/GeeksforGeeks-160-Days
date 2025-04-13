@@ -1,0 +1,44 @@
+class Solution {
+    static ArrayList<ArrayList<String>> accountsMerge(
+        ArrayList<ArrayList<String>> accounts) {
+        // code here
+        Map<String, ArrayList<String>> graph = new HashMap<>();
+        Set<String> visited = new HashSet<>();
+        
+        for (ArrayList<String> account : accounts) {
+            String firstMail = account.get(1);
+            for (int i = 2; i < account.size(); i++) {
+                String email = account.get(i);
+                graph.computeIfAbsent(firstMail, k -> new ArrayList<>()).add(email);
+                graph.computeIfAbsent(email, k -> new ArrayList<>()).add(firstMail);
+            }
+        }
+        
+        ArrayList<ArrayList<String>> mergedAccounts = new ArrayList<>();
+        
+        for (ArrayList<String> account : accounts) {
+            String name = account.get(0);
+            String firstMail = account.get(1);
+            
+            if (!visited.contains(firstMail)) {
+                ArrayList<String> emailGroup = new ArrayList<>();
+                dfs(firstMail, visited, graph, emailGroup);
+                Collections.sort(emailGroup);
+                emailGroup.add(0, name);
+                mergedAccounts.add(emailGroup);
+            }
+        }
+        return mergedAccounts;
+    }
+    
+    static void dfs(String email, Set<String> visited, Map<String, ArrayList<String>> graph, ArrayList<String> emailGroup) {
+        visited.add(email);
+        emailGroup.add(email);
+        
+        for (String neighbor : graph.getOrDefault(email, new ArrayList<>())) {
+            if (!visited.contains(neighbor)) {
+                dfs(neighbor, visited, graph, emailGroup);
+            }
+        }
+    }
+}
