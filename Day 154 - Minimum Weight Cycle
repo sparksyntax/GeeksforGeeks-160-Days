@@ -1,0 +1,61 @@
+class Solution {
+    public int findMinCycle(int V, int[][] edges) {
+        // code here
+        ArrayList<ArrayList<int[]>> adj = construct(V, edges);
+        int minCycle = Integer.MAX_VALUE;
+        
+        for (int[] edge : edges) {
+            int u = edge[0], v = edge[1], w = edge[2];
+            int distance = shortestPath(V, adj, u, v);
+            if (distance != Integer.MAX_VALUE) {
+                minCycle = Math.min(minCycle, distance + w);
+            }
+        }
+        
+        return minCycle;
+    }
+    
+    public int shortestPath(int V, ArrayList<ArrayList<int[]>> adj, int src, int dest) {
+        int[] distance = new int[V];
+        Arrays.fill(distance, Integer.MAX_VALUE);
+        
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+        distance[src] = 0;
+        pq.offer(new int[]{0, src});
+        
+        while (!pq.isEmpty()) {
+            int[] current = pq.poll();
+            int d = current[0], u = current[1];
+            
+            if (d > distance[u]) continue;
+            
+            for (int[] neighbor : adj.get(u)) {
+                int v = neighbor[0], w = neighbor[1];
+                if ((u == src && v == dest) || (u == dest && v == src)) {
+                    continue;
+                }
+                if (distance[v] > distance[u] + w) {
+                    distance[v] = distance[u] + w;
+                    pq.offer(new int[]{distance[v], v});
+                }
+            }
+        }
+        return distance[dest];
+    }
+    
+    public ArrayList<ArrayList<int[]>> construct(int V, int[][] edges) {
+        ArrayList<ArrayList<int[]>> adj = new ArrayList<>();
+        
+        for (int i = 0; i < V; i++) {
+            adj.add(new ArrayList<>());
+        }
+        
+        for (int[] edge : edges) {
+            int u = edge[0], v = edge[1], w = edge[2];
+            adj.get(u).add(new int[]{v, w});
+            adj.get(v).add(new int[]{u, w});
+        }
+        
+        return adj;
+    }
+}
