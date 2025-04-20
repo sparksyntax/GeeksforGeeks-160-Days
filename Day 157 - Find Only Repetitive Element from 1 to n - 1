@@ -1,0 +1,17 @@
+class Solution {
+    public int findDuplicate(int[] arr) {
+        // code here
+        int n = arr.length;
+        int repetitive = 0, xor = 0;
+        
+        for (int i = 0; i < n; i++) {
+            repetitive ^= arr[i];
+        }
+        
+        for (int i = 0; i < n; i++) {
+            xor ^= i;
+        }
+        
+        return repetitive ^ xor;
+    }
+}
